@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="card">
+    <div class="card-header">
+      <h1 class="card-title">Leave a review</h1>
+      <a class="button secondary" href="{% url 'profile' user_id=reviewed_user.id %}">Back to profile</a>
+    </div>
+
+    <form method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit" class="button">Submit review</button>
+    </form>
+  </div>
+{% endblock %}

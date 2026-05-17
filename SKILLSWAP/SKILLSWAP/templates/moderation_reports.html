@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="card-header">
+    <h1 class="card-title">Moderation - Reports</h1>
+    <a class="button" href="{% url 'admin_dashboard' %}">Back to Dashboard</a>
+  </div>
+
+  {% if reports %}
+    {% for report in reports %}
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <strong>{{ report.reporter.username }}</strong> reported <em>{{ report.skill.title }}</em>
+            <div class="badge">{{ report.status|capfirst }}</div>
+          </div>
+          <div>
+            <span class="badge">{{ report.created|date:"M d, Y" }}</span>
+          </div>
+        </div>
+        <p>{{ report.message|default:"No message provided." }}</p>
+        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+          {% if report.status != 'reviewed' %}
+            <a class="button" href="{% url 'resolve_report' id=report.id action='reviewed' %}">Mark reviewed</a>
+          {% endif %}
+          {% if report.status != 'dismissed' %}
+            <a class="button secondary" href="{% url 'resolve_report' id=report.id action='dismissed' %}">Dismiss</a>
+          {% endif %}
+        </div>
+      </div>
+    {% endfor %}
+  {% else %}
+    <div class="card">
+      <p>No reports to moderate right now.</p>
+    </div>
+  {% endif %}
+{% endblock %}

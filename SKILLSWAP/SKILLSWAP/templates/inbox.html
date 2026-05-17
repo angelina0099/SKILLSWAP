@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="card-header">
+    <h1 class="card-title">Inbox</h1>
+  </div>
+
+  {% if conversations %}
+    {% for item in conversations %}
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <strong><a href="{% url 'profile' user_id=item.user.id %}">{{ item.user.username }}</a></strong>
+            <div class="badge">{{ item.last_message.created|date:"M d, Y H:i" }}</div>
+          </div>
+        </div>
+        <p>
+          {% if item.last_from_me %}
+            <strong>You:</strong>
+          {% else %}
+            <strong>{{ item.user.username }}:</strong>
+          {% endif %}
+          {{ item.last_message.text|truncatechars:180 }}
+        </p>
+        <a class="button" href="{% url 'send_message' user_id=item.user.id %}">Open conversation</a>
+      </div>
+    {% endfor %}
+  {% else %}
+    <div class="card">
+      <p>You have no conversations yet. Send a message by visiting another user's profile or skill listing.</p>
+    </div>
+  {% endif %}
+{% endblock %}

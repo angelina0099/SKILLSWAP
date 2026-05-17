@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="card">
+    <div class="card-header">
+      <h1 class="card-title">Report Skill</h1>
+      <a class="button secondary" href="{% url 'search' %}">Back to search</a>
+    </div>
+
+    <p>
+      You are reporting: <strong>{{ skill.title }}</strong> by
+      <a href="{% url 'profile' user_id=skill.owner.id %}">{{ skill.owner.username }}</a>
+    </p>
+
+    <form method="post">
+      {% csrf_token %}
+      <label for="message">Reason (optional but recommended)</label>
+      <textarea id="message" name="message" rows="5" placeholder="Tell us why this content should be reviewed"></textarea>
+      <button type="submit" class="button">Submit report</button>
+    </form>
+  </div>
+{% endblock %}
